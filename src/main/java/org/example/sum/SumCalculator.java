@@ -1,4 +1,4 @@
-package org.example;
+package org.example.sum;
 
 public class SumCalculator {
     public int sum(int n) {
