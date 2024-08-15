@@ -1,5 +1,5 @@
 package org.example.sum;
 
-public interface Number {
+public interface NumberGetter {
     int get();
 }

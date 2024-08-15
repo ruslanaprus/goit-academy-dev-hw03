@@ -1,16 +1,17 @@
 package org.example;
 
-import org.example.sum.Number;
-import org.example.sum.NumberService;
-import org.example.sum.SumCalculator;
-import org.example.sum.UserInput;
+import org.example.sum.*;
+import org.example.sum.NumberGetter;
 
 public class AppLauncher {
     public static void main(String[] args) {
-        Number userInput = new UserInput();
-        NumberService numberService = new NumberService(userInput);
-        int n = numberService.getNumber();
+//        NumberGetter userInput = new UserInput();
+//        NumberManager numberManager = new NumberManager(userInput);
+        NumberGetter randomInt = new RandomInt();
+        NumberManager numberManager = new NumberManager(randomInt);
+        int number = numberManager.getNumericValue();
+        System.out.println("number: " + number);
         SumCalculator sumCalculator = new SumCalculator();
-        System.out.println("Sum of numbers: " + sumCalculator.sum(n));
+        System.out.println("Sum of numbers: " + sumCalculator.sum(number));
     }
 }

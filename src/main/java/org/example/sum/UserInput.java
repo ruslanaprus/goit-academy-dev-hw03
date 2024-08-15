@@ -2,7 +2,7 @@ package org.example.sum;
 
 import java.util.Scanner;
 
-public class UserInput implements Number{
+public class UserInput implements NumberGetter {
     @Override
     public int get() {
         try (Scanner scanner = new Scanner(System.in)) {

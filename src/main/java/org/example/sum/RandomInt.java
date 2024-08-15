@@ -2,8 +2,10 @@ package org.example.sum;
 
 import java.util.Random;
 
-public class RandomInt implements Number {
-    private Random random;
+public class RandomInt implements NumberGetter {
+    private final Random random;
+    int min = 1;
+    int max = 100;
 
     public RandomInt() {
         random = new Random();
@@ -11,6 +13,6 @@ public class RandomInt implements Number {
 
     @Override
     public int get() {
-        return random.nextInt();
+        return random.nextInt(max - min) + min;
     }
 }
