@@ -8,6 +8,7 @@ import org.mockito.MockedStatic;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +24,7 @@ class NumberFromFileTest {
     private String originalContent;
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {
         tempFile = Files.createTempFile("testFile", ".txt");
         Files.writeString(tempFile, "42");
         numberFromFile = NumberFromFile.getInstance(tempFile.toString());
@@ -69,7 +70,7 @@ class NumberFromFileTest {
 
         Method readFirstLineIntMethod = NumberFromFile.class.getDeclaredMethod("readFirstLineInt");
         readFirstLineIntMethod.setAccessible(true);
-        Optional<Integer> result = (Optional<Integer>)readFirstLineIntMethod.invoke(numberFromFile);
+        Optional<Integer> result = (Optional<Integer>) readFirstLineIntMethod.invoke(numberFromFile);
 
         assertTrue(result.isEmpty(), "Expected result to be empty for invalid integer input");
     }
@@ -86,7 +87,7 @@ class NumberFromFileTest {
 
             Method readFirstLineIntMethod = NumberFromFile.class.getDeclaredMethod("readFirstLineInt");
             readFirstLineIntMethod.setAccessible(true);
-            Optional<Integer> result = (Optional<Integer>)readFirstLineIntMethod.invoke(numberFromFile);
+            Optional<Integer> result = (Optional<Integer>) readFirstLineIntMethod.invoke(numberFromFile);
             assertTrue(result.isEmpty(), "Expected result to be empty when IOException occurs");
         }
     }
@@ -142,5 +143,23 @@ class NumberFromFileTest {
         assertTrue(Files.exists(nonExistentFile), "Expected the file to be created if it does not exist");
 
         Files.deleteIfExists(nonExistentFile);
+    }
+
+    @Test
+    void testCreateFileIfNotExistsThrowsExceptionOnIOException() throws Exception {
+        Constructor<NumberFromFile> constructor = NumberFromFile.class.getDeclaredConstructor(String.class);
+        constructor.setAccessible(true);
+
+        try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+            filesMock.when(() -> Files.notExists(any(Path.class))).thenReturn(true);
+            filesMock.when(() -> Files.createFile(any(Path.class))).thenThrow(new IOException("Test IO Exception"));
+
+            InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
+                constructor.newInstance("somePath.txt");
+            }, "Expected InvocationTargetException due to reflection when IOException occurs");
+
+            Throwable cause = exception.getCause();
+            assertInstanceOf(IllegalStateException.class, cause, "Expected cause of InvocationTargetException to be IllegalStateException");
+        }
     }
 }
