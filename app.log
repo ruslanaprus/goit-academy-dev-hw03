@@ -1,0 +1,1 @@
+2024-08-18 14:12:36 INFO  org.example.sum.NumberFromFile - File src/main/resources/number.txt is empty or doesn't contain a valid number
