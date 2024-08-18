@@ -16,7 +16,7 @@ class UserInputTest {
     }
 
     @Test
-    public void testValidInput() {
+    void testValidInput() {
         String simulatedInput = "7\n";
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
@@ -26,7 +26,7 @@ class UserInputTest {
     }
 
     @Test
-    public void testInvalidThenValidInput() {
+    void testInvalidThenValidInput() {
         String simulatedInput = "meow\n-11\n0\n7\n";
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
@@ -36,7 +36,7 @@ class UserInputTest {
     }
 
     @Test
-    public void testMinimumValidInput(){
+    void testMinimumValidInput() {
         String simulatedInput = "1\n";
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
@@ -46,4 +46,43 @@ class UserInputTest {
 
     }
 
+    @Test
+    void testMultipleValidInput() {
+        String simulatedInput = "3\n4\n5\n";
+        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+
+        int result = userInput.get();
+        assertEquals(3, result, "The method should return the first valid positive integer input");
+    }
+
+    @Test
+    void testLargeNumberInput(){
+        String simulatedInput = "999999999\n";
+        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+
+        int result = userInput.get();
+        assertEquals(999999999, result, "The method should return the large valid positive integer input");
+    }
+
+    @Test
+    void testZeroAsInvalidInput(){
+        String simulatedInput = "0\n5\n";
+        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+
+        int result = userInput.get();
+        assertEquals(5, result, "The method should reject zero as an invalid input and continue asking for input until a valid positive integer is provided");
+    }
+
+    @Test
+    void testNegativeThenPositiveInput(){
+        String simulatedInput = "-5\n8\n";
+        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+
+        int result = userInput.get();
+        assertEquals(8, result, "The method should skip negative inputs and continue asking for input until a valid positive integer is provided");
+    }
 }
