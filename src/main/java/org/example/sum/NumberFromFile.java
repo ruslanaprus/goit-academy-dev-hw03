@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class NumberFromFile implements NumberGetter {
     private static final Logger logger = LoggerFactory.getLogger(NumberFromFile.class);
@@ -33,28 +34,28 @@ public class NumberFromFile implements NumberGetter {
                 logger.info("Created new file at {}", filePath);
             }
         } catch (IOException e) {
-            logger.error("Error creating file at {}", filePath, e);
-            throw new RuntimeException("Error creating file", e);
+            throw new IllegalStateException("Error creating file at " + filePath, e);
         }
     }
 
     @Override
     public int get() {
-        return readFirstLineInt().orElseGet(() -> {
-            logger.info("File {} is empty or doesn't contain a valid number", filePath);
-            return 0;
+        return readFirstLineInt().orElseThrow(() -> {
+            String message = String.format("File %s is empty or doesn't contain a valid number", filePath);
+            logger.error(message);
+            return new IllegalStateException(message);
         });
     }
 
     private Optional<Integer> readFirstLineInt(){
-        try {
-            return Files.lines(filePath)
+        try (Stream<String> lines = Files.lines(filePath)) {
+            return lines
                     .findFirst()
                     .map(String::trim)
                     .map(this::parseIntOrLog);
         } catch (IOException e){
-            logger.error("Error reading the number from file {}", filePath, e);
-            throw new RuntimeException("Error reading the number from file", e);
+            logger.error("Error reading the file {}: {}", filePath, e.getMessage(), e);
+            return Optional.empty();
         }
     }
 
@@ -62,7 +63,7 @@ public class NumberFromFile implements NumberGetter {
         try {
             return Integer.parseInt(line);
         } catch (NumberFormatException e){
-            logger.warn("First line in file {} is not a valid integer: {}", filePath, line);
+            logger.warn("Cannot parse the line as integer from file {}: line content: '{}'", filePath, line);
             return null;
         }
     }
