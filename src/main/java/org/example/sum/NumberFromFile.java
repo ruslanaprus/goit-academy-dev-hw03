@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Optional;
 
 public class NumberFromFile implements NumberGetter {
     private static final Logger logger = LoggerFactory.getLogger(NumberFromFile.class);
     private static NumberFromFile instance;
-    private String filePath;
+    private final Path filePath;
 
     private NumberFromFile(String filePath) {
-        this.filePath = filePath;
+        this.filePath = Paths.get(filePath);
         createFileIfNotExists();
     }
 
@@ -28,9 +28,8 @@ public class NumberFromFile implements NumberGetter {
 
     private void createFileIfNotExists() {
         try {
-            Path path = Paths.get(filePath);
-            if (!Files.exists(path)) {
-                Files.createFile(path);
+            if (Files.notExists(filePath)) {
+                Files.createFile(filePath);
                 logger.info("Created new file at {}", filePath);
             }
         } catch (IOException e) {
@@ -41,24 +40,30 @@ public class NumberFromFile implements NumberGetter {
 
     @Override
     public int get() {
-        try {
-            Path path = Paths.get(filePath);
-            List<String> fileContent = Files.readAllLines(path);
-
-            if (!fileContent.isEmpty()) {
-                String firstLine = fileContent.get(0).trim();
-                try {
-                    return Integer.parseInt(firstLine);
-                } catch (NumberFormatException e) {
-                    logger.warn("First line in file {} is not a valid integer: {}", filePath, firstLine);
-                }
-            }
+        return readFirstLineInt().orElseGet(() -> {
             logger.info("File {} is empty or doesn't contain a valid number", filePath);
-        } catch (IOException e) {
+            return 0;
+        });
+    }
+
+    private Optional<Integer> readFirstLineInt(){
+        try {
+            return Files.lines(filePath)
+                    .findFirst()
+                    .map(String::trim)
+                    .map(this::parseIntOrLog);
+        } catch (IOException e){
             logger.error("Error reading the number from file {}", filePath, e);
             throw new RuntimeException("Error reading the number from file", e);
         }
+    }
 
-        return 0;
+    private Integer parseIntOrLog(String line){
+        try {
+            return Integer.parseInt(line);
+        } catch (NumberFormatException e){
+            logger.warn("First line in file {} is not a valid integer: {}", filePath, line);
+            return null;
+        }
     }
 }
