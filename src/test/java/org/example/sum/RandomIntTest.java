@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RandomIntTest {
 
     @Test
-    public void testRandomNumberInRangeDefault() {
+    void testRandomNumberInRangeDefault() {
         RandomInt randomInt = new RandomInt();
         int result = randomInt.get();
         assertTrue(result >= 1 && result < 100,
@@ -18,7 +18,7 @@ class RandomIntTest {
     }
 
     @Test
-    public void testRandomNumbersInCustomRange() {
+    void testRandomNumbersInCustomRange() {
         RandomInt randomInt = new RandomInt(50);
         int result = randomInt.get();
         assertTrue(result >= 1 && result <= 50,
@@ -26,14 +26,14 @@ class RandomIntTest {
     }
 
     @Test
-    public void testMaxEqualsOne(){
+    void testMaxEqualsOne() {
         RandomInt randomInt = new RandomInt(1);
         int result = randomInt.get();
         assertEquals(1, result, "The returned calue should always be 1 when max is 1");
     }
 
     @Test
-    public void testMockedRandomOutput() {
+    void testMockedRandomOutput() {
         Random mockRandom = Mockito.mock(Random.class);
         Mockito.when(mockRandom.nextInt(100)).thenReturn(42);
 
@@ -44,7 +44,7 @@ class RandomIntTest {
     }
 
     @Test
-    public void testMultipleCallsWithMock() {
+    void testMultipleCallsWithMock() {
         Random mockRandom = Mockito.mock(Random.class);
         Mockito.when(mockRandom.nextInt(100)).thenReturn(0, 99);
 
@@ -55,7 +55,7 @@ class RandomIntTest {
     }
 
     @Test
-    public void testMaxLessThanOneThrowsException() {
+    void testMaxLessThanOneThrowsException() {
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
                 () -> new RandomInt(0),
