@@ -54,10 +54,11 @@ public class NumberFromFile implements NumberGetter {
                 }
             }
             logger.info("File {} is empty or doesn't contain a valid number", filePath);
-            return 1;
         } catch (IOException e) {
             logger.error("Error reading the number from file {}", filePath, e);
-            throw new RuntimeException("Error reading the number from file");
+            throw new RuntimeException("Error reading the number from file", e);
         }
+
+        return 0;
     }
 }
