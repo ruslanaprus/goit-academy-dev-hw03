@@ -10,16 +10,16 @@ public class AppLauncher {
 
     public static void main(String[] args) {
         try {
-//        NumberGetter userInput = new UserInput();
-//        NumberManager numberManager = new NumberManager(userInput);
+            NumberGetter userInput = new UserInput();
+            NumberManager numberManager = new NumberManager(userInput);
 //        NumberGetter randomInt = new RandomInt();
 //        NumberManager numberManager = new NumberManager(randomInt);
-            NumberGetter numberFromFile = NumberFromFile.getInstance("src/main/resources/number.txt");
-            NumberManager numberManager = new NumberManager(numberFromFile);
+//            NumberGetter numberFromFile = NumberFromFile.getInstance("src/main/resources/number.txt");
+//            NumberManager numberManager = new NumberManager(numberFromFile);
             int number = numberManager.getNumericValue();
             logger.info("Retrieved number: {}", number);
             SumCalculator sumCalculator = new SumCalculator();
-            logger.info("Sum of numbers: {}", sumCalculator.sum(number));
+            logger.info("Sum of numbers from 1 to {}: {}", number, sumCalculator.sum(number));
         } catch (IllegalStateException | IllegalArgumentException e) {
             logger.error("Error: {}", e.getMessage(), e);
         }

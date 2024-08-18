@@ -13,15 +13,23 @@ public class UserInput implements NumberGetter {
         try (Scanner scanner = new Scanner(System.in)) {
             int number;
             do {
-                logger.info("Please enter a positive number: ");
-                while (!scanner.hasNextInt()) {
-                    logger.warn("Invalid input provided by the user.");
-                    logger.info("Invalid input. Please enter a valid positive number: ");
-                    scanner.next();
-                }
-                number = scanner.nextInt();
-            } while (number <= 0);
+                logger.info("Please enter a number: ");
+                number = getUserInput(scanner);
+            } while (!isValidNumber(number));
             return number;
         }
+    }
+
+    private int getUserInput(Scanner scanner) {
+        while (!scanner.hasNextInt()) {
+            logger.warn("Invalid input provided by the user.");
+            logger.info("Invalid input. Please enter a valid positive number: ");
+            scanner.next();
+        }
+        return scanner.nextInt();
+    }
+
+    private boolean isValidNumber(int number){
+        return (number > 0);
     }
 }
