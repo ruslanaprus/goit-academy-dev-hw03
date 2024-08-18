@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 class RandomIntTest {
 
@@ -35,7 +37,7 @@ class RandomIntTest {
     @Test
     void testMockedRandomOutput() {
         Random mockRandom = Mockito.mock(Random.class);
-        Mockito.when(mockRandom.nextInt(100)).thenReturn(42);
+        when(mockRandom.nextInt(100)).thenReturn(42);
 
         RandomInt randomIntWithMock = new RandomInt(mockRandom, 100);
         int result = randomIntWithMock.get();
@@ -46,7 +48,7 @@ class RandomIntTest {
     @Test
     void testMultipleCallsWithMock() {
         Random mockRandom = Mockito.mock(Random.class);
-        Mockito.when(mockRandom.nextInt(100)).thenReturn(0, 99);
+        when(mockRandom.nextInt(100)).thenReturn(0, 99);
 
         RandomInt randomInt = new RandomInt(mockRandom, 100);
 
@@ -63,5 +65,15 @@ class RandomIntTest {
         );
 
         assertEquals("max must be greater than or equal to 1", thrown.getMessage());
+    }
+
+    @Test
+    public void testGet_ExceptionThrown() {
+        Random mockRandom = Mockito.mock(Random.class);
+        when(mockRandom.nextInt(anyInt())).thenThrow(new RuntimeException("Mocked Exception"));
+        RandomInt randomInt = new RandomInt(mockRandom, 10);
+        int result = randomInt.get();
+
+        assertEquals(0, result, "Expected RuntimeException when failed generating random number");
     }
 }
