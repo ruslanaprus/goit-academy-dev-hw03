@@ -1,6 +1,5 @@
-package org.example;
+package org.example.sum;
 
-import org.example.sum.SumCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
