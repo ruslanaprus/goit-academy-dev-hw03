@@ -30,7 +30,7 @@ jacocoTestReport {
     reports {
         xml.required = false
         csv.required = false
-        html.outputLocation.set(file("docs/jacocoHtml"))
+        html.outputLocation.set(file("docs/"))
     }
 }
 
