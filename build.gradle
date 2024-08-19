@@ -22,15 +22,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport // Ensure the report is generated after tests run
+    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-    dependsOn test // Ensure the report is generated after tests run
+    dependsOn test
     reports {
         xml.required = false
         csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        html.outputLocation.set(file("docs/jacocoHtml"))
     }
 }
 
