@@ -49,11 +49,11 @@ The application emphasizes the principles of Dependency Inversion and Dependency
         │   └──  org
         │       └──  example
         │           ├──  AppLauncherTest.java
-        │           ├──  sum
-        │           │   ├──  NumberFromFileTest.java
-        │           │   ├──  RandomIntTest.java
-        │           │   └──  UserInputTest.java
-        │           └──  SumCalculatorTest.java
+        │           └──  sum
+        │               ├──  NumberFromFileTest.java
+        │               ├──  SumCalculatorTest.java
+        │               ├──  RandomIntTest.java
+        │               └──  UserInputTest.java
         └──  resources
 
 ```
@@ -110,11 +110,11 @@ The test codebase is organised into the following packages and classes:
 
 - **`org.example`**
     - `AppLauncherTest`: Tests for launching the application using different implementations of `NumberGetter`.
-    - `SumCalculatorTest`: Tests for verifying the correctness of summation logic.
 - **`org.example.sum`**
     - `UserInputTest`: Tests for validating user input handling.
     - `RandomIntTest`: Tests for validating random number generation.
     - `NumberFromFileTest`: Tests for verifying file reading and singleton behaviour.
+    - `SumCalculatorTest`: Tests for verifying the correctness of summation logic.
 
 ### Testing Approaches
 
