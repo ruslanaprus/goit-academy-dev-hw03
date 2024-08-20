@@ -120,10 +120,10 @@ class NumberFromFileTest {
 
     @Test
     void testGetHandlesLargeNumbers() throws IOException {
-        Files.writeString(tempFile, "2147483647");
+        Files.writeString(tempFile, "65535");
 
         int result = numberFromFile.get();
-        assertEquals(2147483647, result, "Expected get() to return the maximum integer value 2147483647");
+        assertEquals(65535, result, "Expected get() to return the maximum value 65535");
     }
 
     @Test

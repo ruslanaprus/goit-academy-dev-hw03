@@ -5,35 +5,36 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
+import static org.example.constants.Constants.MAX_VALUE;
+
 public class RandomInt implements NumberGetter {
-<span class="fc" id="L9">    private static final Logger logger = LoggerFactory.getLogger(RandomInt.class);</span>
+<span class="fc" id="L11">    private static final Logger logger = LoggerFactory.getLogger(RandomInt.class);</span>
     private final Random random;
     private final int max;
-    private static final int DEFAULT_MAX = 100;
 
     public RandomInt() {
-<span class="fc" id="L15">        this(DEFAULT_MAX);</span>
-<span class="fc" id="L16">    }</span>
+<span class="fc" id="L16">        this(MAX_VALUE);</span>
+<span class="fc" id="L17">    }</span>
 
     public RandomInt(int max) {
-<span class="fc" id="L19">        this(new Random(), max);</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L20">        this(new Random(), max);</span>
+<span class="fc" id="L21">    }</span>
 
-<span class="fc" id="L22">    public RandomInt(Random random, int max) {</span>
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (max &lt; 1) {</span>
-<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;max must be greater than or equal to 1&quot;);</span>
+<span class="fc" id="L23">    public RandomInt(Random random, int max) {</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (max &lt; 1) {</span>
+<span class="fc" id="L25">            throw new IllegalArgumentException(&quot;max must be greater than or equal to 1&quot;);</span>
         }
-<span class="fc" id="L26">        this.random = random;</span>
-<span class="fc" id="L27">        this.max = max;</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L27">        this.random = random;</span>
+<span class="fc" id="L28">        this.max = max;</span>
+<span class="fc" id="L29">    }</span>
 
     @Override
     public int get() {
         try {
-<span class="fc" id="L33">            return random.nextInt(max) + 1;</span>
-<span class="fc" id="L34">        } catch (Exception e) {</span>
-<span class="fc" id="L35">            logger.error(&quot;Error generating random number&quot;, e);</span>
-<span class="fc" id="L36">            return 0;</span>
+<span class="fc" id="L34">            return random.nextInt(max) + 1;</span>
+<span class="fc" id="L35">        } catch (Exception e) {</span>
+<span class="fc" id="L36">            logger.error(&quot;Error generating random number&quot;, e);</span>
+<span class="fc" id="L37">            return 0;</span>
         }
     }
 }

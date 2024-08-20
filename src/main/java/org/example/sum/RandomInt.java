@@ -5,14 +5,15 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
+import static org.example.constants.Constants.MAX_VALUE;
+
 public class RandomInt implements NumberGetter {
     private static final Logger logger = LoggerFactory.getLogger(RandomInt.class);
     private final Random random;
     private final int max;
-    private static final int DEFAULT_MAX = 100;
 
     public RandomInt() {
-        this(DEFAULT_MAX);
+        this(MAX_VALUE);
     }
 
     public RandomInt(int max) {

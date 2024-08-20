@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 
+import static org.example.constants.Constants.MAX_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
@@ -58,12 +59,12 @@ class UserInputTest {
 
     @Test
     void testLargeNumberInput(){
-        String simulatedInput = "999999999\n";
+        String simulatedInput = "65535\n";
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
 
         int result = userInput.get();
-        assertEquals(999999999, result, "The method should return the large valid positive integer input");
+        assertEquals(MAX_VALUE, result, "The method should return the large valid positive integer input");
     }
 
     @Test

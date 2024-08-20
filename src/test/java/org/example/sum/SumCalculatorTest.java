@@ -3,6 +3,8 @@ package org.example.sum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.example.constants.Constants.MAX_VALUE;
+import static org.example.constants.Constants.MIN_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SumCalculatorTest {
@@ -16,7 +18,7 @@ class SumCalculatorTest {
 
     @Test
     void testSumOne() {
-        int n = 1;
+        int n = MIN_VALUE;
         int expectedSum = 1;
         assertEquals(expectedSum, sumCalculator.sum(n));
     }
@@ -34,6 +36,12 @@ class SumCalculatorTest {
         assertThrows(IllegalArgumentException.class, () -> {
             sumCalculator.sum(n);
         });
+    }
 
+    @Test
+    void testLargestNumber(){
+        int n = MAX_VALUE;
+        int expectedSum = 2_147_450_880;
+        assertEquals(expectedSum, sumCalculator.sum(n));
     }
 }

@@ -2,10 +2,11 @@
 
 <span class="fc" id="L3">public class SumCalculator {</span>
     public int sum(int n) {
-<span class="fc bfc" id="L5" title="All 2 branches covered.">        if (n &gt; 0) {</span>
-<span class="fc" id="L6">            return n * (n + 1) / 2;</span>
+<span class="fc" id="L5">        long number = n;</span>
+<span class="fc bfc" id="L6" title="All 2 branches covered.">        if (number &gt; 0) {</span>
+<span class="fc" id="L7">            return (int)(number * (number + 1) / 2);</span>
         } else {
-<span class="fc" id="L8">            throw new IllegalArgumentException(&quot;Invalid input&quot;);</span>
+<span class="fc" id="L9">            throw new IllegalArgumentException(&quot;Invalid input&quot;);</span>
         }
     }
 }

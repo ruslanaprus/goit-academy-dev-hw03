@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
+import static org.example.constants.Constants.MAX_VALUE;
+import static org.example.constants.Constants.MIN_VALUE;
+
 public class UserInput implements NumberGetter {
     private static final Logger logger = LoggerFactory.getLogger(UserInput.class);
 
@@ -29,7 +32,12 @@ public class UserInput implements NumberGetter {
         return scanner.nextInt();
     }
 
-    private boolean isValidNumber(int number){
-        return (number > 0);
+    private boolean isValidNumber(int number) {
+        if (number >= MIN_VALUE && number <= MAX_VALUE) {
+            return true;
+        } else {
+            logger.warn("Number out of range. Please enter a number between 1 and 65535");
+            return false;
+        }
     }
 }

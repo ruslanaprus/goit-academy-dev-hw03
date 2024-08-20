@@ -5,32 +5,40 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
-<span class="fc" id="L8">public class UserInput implements NumberGetter {</span>
-<span class="fc" id="L9">    private static final Logger logger = LoggerFactory.getLogger(UserInput.class);</span>
+import static org.example.constants.Constants.MAX_VALUE;
+import static org.example.constants.Constants.MIN_VALUE;
+
+<span class="fc" id="L11">public class UserInput implements NumberGetter {</span>
+<span class="fc" id="L12">    private static final Logger logger = LoggerFactory.getLogger(UserInput.class);</span>
 
     @Override
     public int get() {
-<span class="fc" id="L13">        try (Scanner scanner = new Scanner(System.in)) {</span>
+<span class="fc" id="L16">        try (Scanner scanner = new Scanner(System.in)) {</span>
             int number;
             do {
-<span class="fc" id="L16">                logger.info(&quot;Please enter a number: &quot;);</span>
-<span class="fc" id="L17">                number = getUserInput(scanner);</span>
-<span class="fc bfc" id="L18" title="All 2 branches covered.">            } while (!isValidNumber(number));</span>
-<span class="fc" id="L19">            return number;</span>
+<span class="fc" id="L19">                logger.info(&quot;Please enter a number: &quot;);</span>
+<span class="fc" id="L20">                number = getUserInput(scanner);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            } while (!isValidNumber(number));</span>
+<span class="fc" id="L22">            return number;</span>
         }
     }
 
     private int getUserInput(Scanner scanner) {
-<span class="fc bfc" id="L24" title="All 2 branches covered.">        while (!scanner.hasNextInt()) {</span>
-<span class="fc" id="L25">            logger.warn(&quot;Invalid input provided by the user.&quot;);</span>
-<span class="fc" id="L26">            logger.info(&quot;Invalid input. Please enter a valid positive number: &quot;);</span>
-<span class="fc" id="L27">            scanner.next();</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        while (!scanner.hasNextInt()) {</span>
+<span class="fc" id="L28">            logger.warn(&quot;Invalid input provided by the user.&quot;);</span>
+<span class="fc" id="L29">            logger.info(&quot;Invalid input. Please enter a valid positive number: &quot;);</span>
+<span class="fc" id="L30">            scanner.next();</span>
         }
-<span class="fc" id="L29">        return scanner.nextInt();</span>
+<span class="fc" id="L32">        return scanner.nextInt();</span>
     }
 
-    private boolean isValidNumber(int number){
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        return (number &gt; 0);</span>
+    private boolean isValidNumber(int number) {
+<span class="pc bpc" id="L36" title="1 of 4 branches missed.">        if (number &gt;= MIN_VALUE &amp;&amp; number &lt;= MAX_VALUE) {</span>
+<span class="fc" id="L37">            return true;</span>
+        } else {
+<span class="fc" id="L39">            logger.warn(&quot;Number out of range. Please enter a number between 1 and 65535&quot;);</span>
+<span class="fc" id="L40">            return false;</span>
+        }
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

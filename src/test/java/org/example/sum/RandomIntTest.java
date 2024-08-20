@@ -5,6 +5,8 @@ import org.mockito.Mockito;
 
 import java.util.Random;
 
+import static org.example.constants.Constants.MAX_VALUE;
+import static org.example.constants.Constants.MIN_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -12,10 +14,10 @@ import static org.mockito.Mockito.when;
 class RandomIntTest {
 
     @Test
-    void testRandomNumberInRangeDefault() {
+    void testRandomNumberInRange() {
         RandomInt randomInt = new RandomInt();
         int result = randomInt.get();
-        assertTrue(result >= 1 && result < 100,
+        assertTrue(result >= MIN_VALUE && result < MAX_VALUE,
                 "The returned value should be within the range 1 and 100 (inclusive)");
     }
 
@@ -23,7 +25,7 @@ class RandomIntTest {
     void testRandomNumbersInCustomRange() {
         RandomInt randomInt = new RandomInt(50);
         int result = randomInt.get();
-        assertTrue(result >= 1 && result <= 50,
+        assertTrue(result >= MIN_VALUE && result <= 50,
                 "The returned value should always be within the range 1 and 50 (inclusive)");
     }
 
@@ -37,9 +39,9 @@ class RandomIntTest {
     @Test
     void testMockedRandomOutput() {
         Random mockRandom = Mockito.mock(Random.class);
-        when(mockRandom.nextInt(100)).thenReturn(42);
+        when(mockRandom.nextInt(MAX_VALUE)).thenReturn(42);
 
-        RandomInt randomIntWithMock = new RandomInt(mockRandom, 100);
+        RandomInt randomIntWithMock = new RandomInt(mockRandom, MAX_VALUE);
         int result = randomIntWithMock.get();
         assertEquals(43, result,
                 "The get() method should return 43 when the mock Random returns 42");
