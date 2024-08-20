@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 
 import static org.example.constants.Constants.MAX_VALUE;
+import static org.example.constants.Constants.MIN_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
@@ -38,7 +39,7 @@ class UserInputTest {
 
     @Test
     void testMinimumValidInput() {
-        String simulatedInput = "1\n";
+        String simulatedInput = String.valueOf(MIN_VALUE);
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
 
@@ -59,7 +60,7 @@ class UserInputTest {
 
     @Test
     void testLargeNumberInput(){
-        String simulatedInput = "65535\n";
+        String simulatedInput = String.valueOf(MAX_VALUE);
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
 

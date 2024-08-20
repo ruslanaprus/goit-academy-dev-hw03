@@ -1,15 +1,18 @@
 package org.example.sum;
 
+import org.example.number.NumberValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
-import static org.example.constants.Constants.MAX_VALUE;
-import static org.example.constants.Constants.MIN_VALUE;
-
 public class UserInput implements NumberGetter {
     private static final Logger logger = LoggerFactory.getLogger(UserInput.class);
+    private final NumberValidator numberValidator;
+
+    public UserInput(){
+        this.numberValidator = new NumberValidator();
+    }
 
     @Override
     public int get() {
@@ -18,7 +21,7 @@ public class UserInput implements NumberGetter {
             do {
                 logger.info("Please enter a number: ");
                 number = getUserInput(scanner);
-            } while (!isValidNumber(number));
+            } while (!numberValidator.isValidNumber(number));
             return number;
         }
     }
@@ -30,14 +33,5 @@ public class UserInput implements NumberGetter {
             scanner.next();
         }
         return scanner.nextInt();
-    }
-
-    private boolean isValidNumber(int number) {
-        if (number >= MIN_VALUE && number <= MAX_VALUE) {
-            return true;
-        } else {
-            logger.warn("Number out of range. Please enter a number between 1 and 65535");
-            return false;
-        }
     }
 }

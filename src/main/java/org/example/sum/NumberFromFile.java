@@ -1,5 +1,6 @@
 package org.example.sum;
 
+import org.example.number.NumberValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +15,11 @@ public class NumberFromFile implements NumberGetter {
     private static final Logger logger = LoggerFactory.getLogger(NumberFromFile.class);
     private static NumberFromFile instance;
     private final Path filePath;
+    private final NumberValidator numberValidator;
 
     private NumberFromFile(String filePath) {
         this.filePath = Paths.get(filePath);
+        this.numberValidator = new NumberValidator();
         createFileIfNotExists();
     }
 
@@ -40,29 +43,31 @@ public class NumberFromFile implements NumberGetter {
 
     @Override
     public int get() {
-        return readFirstLineInt().orElseThrow(() -> {
-            String message = String.format("File %s is empty or doesn't contain a valid number", filePath);
-            logger.error(message);
-            return new IllegalStateException(message);
-        });
+        return readFirstLineInt()
+                .filter(numberValidator::isValidNumber)
+                .orElseThrow(() -> {
+                    String message = String.format("File %s is empty or doesn't contain a valid number", filePath);
+                    logger.error(message);
+                    return new IllegalStateException(message);
+                });
     }
 
-    private Optional<Integer> readFirstLineInt(){
+    private Optional<Integer> readFirstLineInt() {
         try (Stream<String> lines = Files.lines(filePath)) {
             return lines
                     .findFirst()
                     .map(String::trim)
-                    .map(this::parseIntOrLog);
-        } catch (IOException e){
+                    .map(this::parseInt);
+        } catch (IOException e) {
             logger.error("Error reading the file {}: {}", filePath, e.getMessage(), e);
             return Optional.empty();
         }
     }
 
-    private Integer parseIntOrLog(String line){
+    private Integer parseInt(String line) {
         try {
             return Integer.parseInt(line);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             logger.warn("Cannot parse the line as integer from file {}: line content: '{}'", filePath, line);
             return null;
         }
