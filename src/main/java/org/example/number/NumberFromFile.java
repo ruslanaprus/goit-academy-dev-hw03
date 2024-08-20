@@ -1,6 +1,5 @@
-package org.example.sum;
+package org.example.number;
 
-import org.example.number.NumberValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

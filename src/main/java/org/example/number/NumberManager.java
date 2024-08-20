@@ -1,4 +1,4 @@
-package org.example.sum;
+package org.example.number;
 
 public class NumberManager {
     private final NumberGetter numberGetter;

@@ -1,10 +1,9 @@
 package org.example;
 
-import org.example.sum.NumberGetter;
+import org.example.number.NumberGetter;
 import org.example.sum.SumCalculator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AppLauncherTest {

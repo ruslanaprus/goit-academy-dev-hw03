@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.sum.*;
-import org.example.sum.NumberGetter;
+import org.example.number.*;
+import org.example.sum.SumCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
