@@ -1,6 +1,5 @@
-package org.example.sum;
+package org.example.number;
 
-import org.example.number.RandomInt;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

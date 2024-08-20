@@ -1,6 +1,5 @@
-package org.example.sum;
+package org.example.number;
 
-import org.example.number.UserInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
