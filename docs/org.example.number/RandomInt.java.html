@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomInt.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">goit-academy-dev-hw03</a> &gt; <a href="index.source.html" class="el_package">org.example.number</a> &gt; <span class="el_source">RandomInt.java</span></div><h1>RandomInt.java</h1><pre class="source lang-java linenums">package org.example.number;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Random;
+
+import static org.example.constants.Constants.MAX_VALUE;
+
+public class RandomInt implements NumberGetter {
+<span class="fc" id="L11">    private static final Logger logger = LoggerFactory.getLogger(RandomInt.class);</span>
+    private final NumberValidator numberValidator;
+    private final Random random;
+    private final int max;
+
+    public RandomInt() {
+<span class="fc" id="L17">        this(MAX_VALUE);</span>
+<span class="fc" id="L18">    }</span>
+
+    public RandomInt(int max) {
+<span class="fc" id="L21">        this(new Random(), max);</span>
+<span class="fc" id="L22">    }</span>
+
+<span class="fc" id="L24">    public RandomInt(Random random, int max) {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (max &lt; 1) {</span>
+<span class="fc" id="L26">            throw new IllegalArgumentException(&quot;max must be greater than or equal to 1&quot;);</span>
+        }
+<span class="fc" id="L28">        this.random = random;</span>
+<span class="fc" id="L29">        this.max = max;</span>
+<span class="fc" id="L30">        this.numberValidator = new NumberValidator();</span>
+<span class="fc" id="L31">    }</span>
+
+    @Override
+    public int get() {
+        try {
+            int randomNumber;
+            do{
+<span class="fc" id="L38">                randomNumber = random.nextInt(max) + 1;</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">            } while (!numberValidator.isValidNumber(randomNumber));</span>
+<span class="fc" id="L40">             return randomNumber;</span>
+<span class="fc" id="L41">        } catch (Exception e) {</span>
+<span class="fc" id="L42">            logger.error(&quot;Error generating random number&quot;, e);</span>
+<span class="fc" id="L43">            return 0;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

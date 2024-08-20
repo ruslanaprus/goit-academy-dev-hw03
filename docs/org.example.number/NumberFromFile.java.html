@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberFromFile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">goit-academy-dev-hw03</a> &gt; <a href="index.source.html" class="el_package">org.example.number</a> &gt; <span class="el_source">NumberFromFile.java</span></div><h1>NumberFromFile.java</h1><pre class="source lang-java linenums">package org.example.number;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+public class NumberFromFile implements NumberGetter {
+<span class="fc" id="L14">    private static final Logger logger = LoggerFactory.getLogger(NumberFromFile.class);</span>
+    private static NumberFromFile instance;
+    private final Path filePath;
+    private final NumberValidator numberValidator;
+
+<span class="fc" id="L19">    private NumberFromFile(String filePath) {</span>
+<span class="fc" id="L20">        this.filePath = Paths.get(filePath);</span>
+<span class="fc" id="L21">        this.numberValidator = new NumberValidator();</span>
+<span class="fc" id="L22">        createFileIfNotExists();</span>
+<span class="fc" id="L23">    }</span>
+
+    public static NumberFromFile getInstance(String filePath) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (instance == null) {</span>
+<span class="fc" id="L27">            instance = new NumberFromFile(filePath);</span>
+        }
+<span class="fc" id="L29">        return instance;</span>
+    }
+
+    private void createFileIfNotExists() {
+        try {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            if (Files.notExists(filePath)) {</span>
+<span class="fc" id="L35">                Files.createFile(filePath);</span>
+<span class="fc" id="L36">                logger.info(&quot;Created new file at {}&quot;, filePath);</span>
+            }
+<span class="fc" id="L38">        } catch (IOException e) {</span>
+<span class="fc" id="L39">            throw new IllegalStateException(&quot;Error creating file at &quot; + filePath, e);</span>
+<span class="fc" id="L40">        }</span>
+<span class="fc" id="L41">    }</span>
+
+    @Override
+    public int get() {
+<span class="fc" id="L45">        return readFirstLineInt()</span>
+<span class="fc" id="L46">                .filter(numberValidator::isValidNumber)</span>
+<span class="fc" id="L47">                .orElseThrow(() -&gt; {</span>
+<span class="fc" id="L48">                    String message = String.format(&quot;File %s is empty or doesn't contain a valid number&quot;, filePath);</span>
+<span class="fc" id="L49">                    logger.error(message);</span>
+<span class="fc" id="L50">                    return new IllegalStateException(message);</span>
+                });
+    }
+
+    private Optional&lt;Integer&gt; readFirstLineInt() {
+<span class="fc" id="L55">        try (Stream&lt;String&gt; lines = Files.lines(filePath)) {</span>
+<span class="fc" id="L56">            return lines</span>
+<span class="fc" id="L57">                    .findFirst()</span>
+<span class="fc" id="L58">                    .map(String::trim)</span>
+<span class="fc" id="L59">                    .map(this::parseInt);</span>
+<span class="fc" id="L60">        } catch (IOException e) {</span>
+<span class="fc" id="L61">            logger.error(&quot;Error reading the file {}: {}&quot;, filePath, e.getMessage(), e);</span>
+<span class="fc" id="L62">            return Optional.empty();</span>
+        }
+    }
+
+    private Integer parseInt(String line) {
+        try {
+<span class="fc" id="L68">            return Integer.parseInt(line);</span>
+<span class="fc" id="L69">        } catch (NumberFormatException e) {</span>
+<span class="fc" id="L70">            logger.warn(&quot;Cannot parse the line as integer from file {}: line content: '{}'&quot;, filePath, line);</span>
+<span class="fc" id="L71">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
